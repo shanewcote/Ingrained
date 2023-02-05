@@ -36,8 +36,10 @@ public class Player : MonoBehaviour
         controller = new MouseKeyboardController();
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        transform.position = m_lastPosition;
-        spriteTransform.rotation = m_lastRotation;
+
+        m_lastPosition = transform.position;
+        m_lastRotation = spriteTransform.rotation;
+        animator.SetBool("Start", false);
     }
 
     // Update is called once per frame
@@ -95,6 +97,11 @@ public class Player : MonoBehaviour
         {
             m_drilling = true;
             Root();
+        }
+
+        if (controller.GetPressedDown())
+        {
+            animator.SetBool("Start", true);
         }
 
         if (m_drilling == true)

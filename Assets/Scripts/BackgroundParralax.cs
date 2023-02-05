@@ -15,8 +15,8 @@ public class BackgroundParralax : MonoBehaviour
     void Update()
     {
         Vector3 velocity = player.GetCameraVelocity() * 0.1f;
-        Vector3 playerVelocity = new Vector3(player.GetComponent<Rigidbody2D>().velocity.x, player.GetComponent<Rigidbody2D>().velocity.y, 0) * 0.0002f;
+        //Vector3 playerVelocity = new Vector3(player.GetComponent<Rigidbody2D>().velocity.x, player.GetComponent<Rigidbody2D>().velocity.y, 0) * 0.0002f;
 
-        gameObject.transform.position -= velocity + playerVelocity;
+        gameObject.transform.position -= velocity;
     }
 }

@@ -34,11 +34,22 @@ public class Player : MonoBehaviour
         cameraVelocity = cameraTransform.position - pos;
         cameraTransform.position = pos;
 
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, cameraTransform.position);
+        Vector2 direction = new Vector2(controller.GetPositionInWorld().x - transform.position.x, controller.GetPositionInWorld().y - transform.position.y);
 
-        Vector2 move = new Vector2(Input.GetAxis("Horizontal"), 0);
-        rigidBody2D.AddForce(move);
+        LayerMask mask = LayerMask.GetMask("Default");
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction.normalized, 200.0f, mask);
+        Vector3 impact = new Vector3(hit.point.x, hit.point.y, transform.position.z);
+
+        lineRenderer.SetPosition(0, transform.position);
+
+        if (hit.point != Vector2.zero)
+        {
+            lineRenderer.SetPosition(1, hit.point);
+        }
+        else
+        {
+            lineRenderer.SetPosition(1, controller.GetPositionInWorld());
+        }
 
         if (controller.GetPressedDown() && m_rooting == false)
         {
@@ -50,8 +61,6 @@ public class Player : MonoBehaviour
     private void Root()
     {
         Vector2 direction = new Vector2(controller.GetPositionInWorld().x - transform.position.x, controller.GetPositionInWorld().y - transform.position.y);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction.normalized, 10.0f);
-
         rigidBody2D.AddForce(direction.normalized * 20.0f, ForceMode2D.Impulse);
     }
 

@@ -841,7 +841,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -993,7 +993,7 @@ GameObject:
   - component: {fileID: 778761082}
   - component: {fileID: 778761083}
   - component: {fileID: 778761080}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1166,8 +1166,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.5164833
+        time: 0.0074441317
+        value: 0.4835163
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1176,7 +1176,7 @@ LineRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0
+        value: 0.4725208
         inSlope: 0
         outSlope: 0
         tangentMode: 0

@@ -74,6 +74,11 @@ public class Player : MonoBehaviour
             Reset();
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         if (m_idle)
         {
             lineRenderer.enabled = true;

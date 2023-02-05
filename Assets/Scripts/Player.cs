@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     protected Transform spriteTransform;
 
+    [SerializeField]
+    protected Camera endCamera;
+
     protected Rigidbody2D rigidBody2D;
     protected MouseKeyboardController controller;
     protected Vector3 cameraVelocity;
@@ -25,9 +28,6 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = m_lastPosition;
-        spriteTransform.rotation = m_lastRotation;
-
         m_idle = true;
         m_drilling = false;
         m_collision = false;
@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
         controller = new MouseKeyboardController();
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
+        transform.position = m_lastPosition;
+        spriteTransform.rotation = m_lastRotation;
     }
 
     // Update is called once per frame
@@ -46,10 +48,18 @@ public class Player : MonoBehaviour
         animator.SetBool("Collision", m_collision);
         controller.UpdateController();
 
-        Vector3 pos = (transform.position + controller.GetPositionInWorld()) * 0.5f;
-        pos.z = -1.92f;
-        cameraVelocity = cameraTransform.position - pos;
-        cameraTransform.position = pos;
+        if (cameraTransform.position.y < 130)
+        {
+            Vector3 pos = (transform.position + controller.GetPositionInWorld()) * 0.5f;
+            pos.z = -1.92f;
+            cameraVelocity = cameraTransform.position - pos;
+            cameraTransform.position = pos;
+        }
+        else
+        {
+            endCamera.GetComponent<Camera>().enabled = true;
+            cameraTransform.GetComponent<Camera>().enabled = false;
+        }
 
         Vector2 direction = new Vector2(controller.GetPositionInWorld().x - transform.position.x, controller.GetPositionInWorld().y - transform.position.y);
 
@@ -121,6 +131,11 @@ public class Player : MonoBehaviour
             m_lastRotation = spriteTransform.rotation;
             m_lastPosition = transform.position;
         }
+
+        if (collision.collider.tag == "Respawn")
+        {
+            Reset();
+        }
     }
 
     protected void Reset()
@@ -128,6 +143,8 @@ public class Player : MonoBehaviour
         rigidBody2D.velocity = Vector2.zero;
         transform.position = m_lastPosition;
         spriteTransform.rotation = m_lastRotation;
+        m_drilling = false;
+        m_collision = false;
         animator.Play("idle");
     }
 }
